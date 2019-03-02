@@ -113,7 +113,7 @@ export default class Logo {
     const min = 0
     const max = 0.7
     if (idx < min) {
-      return null
+      return
     }
     idx = Math.min(idx, max) - min
     this.context.beginPath()
@@ -135,7 +135,7 @@ export default class Logo {
     const min = 0.7
     const max = 1.6
     if (idx < min) {
-      return null
+      return
     }
     idx = Math.min(idx, max) - min
     this.context.beginPath()
@@ -157,7 +157,7 @@ export default class Logo {
     const min = 1.6
     const max = 3.3
     if (idx < min) {
-      return null
+      return
     }
     idx = Math.min(idx, max) - min
     this.context.beginPath()
@@ -179,7 +179,7 @@ export default class Logo {
     const min = 3.3
     const max = 3.4
     if (idx < min) {
-      return null
+      return
     }
     idx = Math.min(idx, max) - min
     this.context.beginPath()
