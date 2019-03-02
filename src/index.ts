@@ -2,8 +2,8 @@ import { query } from './util'
 
 export interface Options {
   el: string | HTMLCanvasElement
-  size: number
-  lineWidth: number
+  size?: number
+  lineWidth?: number
 }
 
 export default class Logo {
@@ -22,7 +22,7 @@ export default class Logo {
     return this.x + this.radius + this.tailRadius
   }
   private get tailY() {
-    return this.y + this.radius + this.tailRadius
+    return this.y
   }
 
   private get eyeRadius() {
@@ -30,7 +30,7 @@ export default class Logo {
   }
 
   private get eyeX() {
-    return this.x - (3 * this.radius) / 4
+    return this.x - this.radius / 4 - this.eyeRadius
   }
 
   private get eyeY() {
