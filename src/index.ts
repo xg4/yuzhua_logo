@@ -95,7 +95,7 @@ export default class Logo {
   }
 
   /**
-   * @description render a motion logo
+   * @description render a motive logo
    */
   public motion({ duration = 300 } = { duration: 300 }) {
     move(this.render.bind(this), {
