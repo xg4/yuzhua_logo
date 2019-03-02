@@ -1,5 +1,4 @@
 import Logo from '../../src'
 
-new Logo({
-  el: document.querySelector('#logo') as HTMLCanvasElement,
-}).motion()
+new Logo().render()
+new Logo().motion({ duration: 2000 })

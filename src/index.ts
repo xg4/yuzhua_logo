@@ -2,9 +2,12 @@ import { move } from '@xg4/motion'
 import { query } from './util'
 
 export interface Options {
-  el: string | HTMLCanvasElement
+  el?: string | HTMLCanvasElement
+  width?: number
+  height?: number
   size?: number
   lineWidth?: number
+  radius?: number
 }
 
 export default class Logo {
@@ -14,6 +17,14 @@ export default class Logo {
 
   private get height() {
     return this.canvas.height
+  }
+
+  private get x() {
+    return this.width / 2 - this.radius / 2
+  }
+
+  private get y() {
+    return this.height / 2
   }
 
   private get tailRadius() {
@@ -41,20 +52,27 @@ export default class Logo {
   private canvas: HTMLCanvasElement
   private context: CanvasRenderingContext2D
 
-  private x: number
-  private y: number
   private radius: number
   private count: number
 
-  constructor({ el, lineWidth = 5 }: Options) {
+  constructor(
+    { el, width, height, lineWidth = 5, radius = 50 }: Options = {
+      lineWidth: 5,
+      radius: 50,
+    },
+  ) {
     this.canvas = query(el)
+    if (width) {
+      this.canvas.width = width
+    }
+    if (height) {
+      this.canvas.height = height
+    }
     this.context = this.canvas.getContext('2d') as CanvasRenderingContext2D
-    this.x = 100
-    this.y = 75
-    this.radius = 50
-    this.lineWidth = lineWidth
-
     this.count = 3.4
+
+    this.lineWidth = lineWidth
+    this.radius = radius
   }
 
   /**
@@ -67,6 +85,7 @@ export default class Logo {
 
     this.context.lineWidth = this.lineWidth
     this.context.lineCap = 'round'
+
     this.part1(idx)
     this.part2(idx)
     this.part3(idx)
@@ -78,11 +97,11 @@ export default class Logo {
   /**
    * @description render a motion logo
    */
-  public motion() {
+  public motion({ duration = 300 } = { duration: 300 }) {
     move(this.render.bind(this), {
       from: 0,
       to: this.count,
-      duration: 3000,
+      duration,
     })
   }
 
@@ -91,10 +110,12 @@ export default class Logo {
    * @param idx [number]
    */
   private part1(idx: number = 0.7) {
-    if (idx < 0) {
+    const min = 0
+    const max = 0.7
+    if (idx < min) {
       return null
     }
-    idx = idx > 0.7 ? 0.7 : idx
+    idx = Math.min(idx, max) - min
     this.context.beginPath()
     this.context.arc(
       this.x,
@@ -111,11 +132,12 @@ export default class Logo {
    * @param idx [number]
    */
   private part2(idx: number = 1.6) {
-    if (idx < 0.7) {
+    const min = 0.7
+    const max = 1.6
+    if (idx < min) {
       return null
     }
-    idx = idx > 1.6 ? 1.6 : idx
-    idx = idx - 0.7
+    idx = Math.min(idx, max) - min
     this.context.beginPath()
     this.context.arc(
       this.x,
@@ -132,11 +154,12 @@ export default class Logo {
    * @param idx [number]
    */
   private part3(idx: number = 3.3) {
-    if (idx < 1.6) {
+    const min = 1.6
+    const max = 3.3
+    if (idx < min) {
       return null
     }
-    idx = idx > 3.3 ? 3.3 : idx
-    idx = idx - 1.6
+    idx = Math.min(idx, max) - min
     this.context.beginPath()
     this.context.arc(
       this.tailX,
@@ -153,11 +176,12 @@ export default class Logo {
    * @param idx [number]
    */
   private part4(idx: number = 3.4) {
-    if (idx < 3.3) {
+    const min = 3.3
+    const max = 3.4
+    if (idx < min) {
       return null
     }
-    idx = idx > 3.4 ? 3.4 : idx
-    idx = idx - 3.3
+    idx = Math.min(idx, max) - min
     this.context.beginPath()
     this.context.arc(
       this.eyeX,
