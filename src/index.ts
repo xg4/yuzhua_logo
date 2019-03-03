@@ -9,23 +9,94 @@ export interface Options {
   lineWidth?: number
   radius?: number
   color?: string
+  x?: number
+  y?: number
 }
 
 export default class Logo {
+  private static PARTS = [
+    {
+      range: [0, 0.65],
+      render({ context, x, y, radius }: Logo, currentIndex: number = 0.65) {
+        const [min, max] = this.range
+        if (currentIndex < min) {
+          return
+        }
+        currentIndex = Math.min(currentIndex, max) - min
+
+        context.beginPath()
+        context.arc(
+          x,
+          y,
+          radius,
+          (1.75 - currentIndex) * Math.PI,
+          1.75 * Math.PI,
+        )
+        context.stroke()
+      },
+    },
+    {
+      range: [0.6, 1.5],
+      render({ context, x, y, radius }: Logo, currentIndex: number = 1.5) {
+        const [min, max] = this.range
+        if (currentIndex < min) {
+          return
+        }
+        currentIndex = Math.min(currentIndex, max) - min
+
+        context.beginPath()
+        context.arc(x, y, radius, (0.9 - currentIndex) * Math.PI, 0.9 * Math.PI)
+        context.stroke()
+      },
+    },
+    {
+      range: [1.5, 3.1],
+      render(
+        { context, tailX, tailY, tailRadius }: Logo,
+        currentIndex: number = 3.1,
+      ) {
+        const [min, max] = this.range
+        if (currentIndex < min) {
+          return
+        }
+        currentIndex = Math.min(currentIndex, max) - min
+
+        context.beginPath()
+        context.arc(
+          tailX,
+          tailY,
+          tailRadius,
+          1 * Math.PI,
+          (1 + currentIndex) * Math.PI,
+        )
+        context.stroke()
+      },
+    },
+    {
+      range: [3.1, 3.5],
+      render(
+        { context, eyeX, eyeY, eyeRadius }: Logo,
+        currentIndex: number = 3.5,
+      ) {
+        const [min, max] = this.range
+        if (currentIndex < min) {
+          return
+        }
+        currentIndex = Math.min(currentIndex, max) - min
+
+        context.beginPath()
+        context.arc(eyeX, eyeY, eyeRadius, 0, currentIndex * 5 * Math.PI)
+        context.fill()
+      },
+    },
+  ]
+
   private get width() {
     return this.canvas.width
   }
 
   private get height() {
     return this.canvas.height
-  }
-
-  private get x() {
-    return this.width / 2 - this.radius / 2
-  }
-
-  private get y() {
-    return this.height / 2
   }
 
   private get tailRadius() {
@@ -49,7 +120,8 @@ export default class Logo {
   private get eyeY() {
     return this.y
   }
-  public lineWidth: number
+
+  private lineWidth: number
   private canvas: HTMLCanvasElement
   private context: CanvasRenderingContext2D
 
@@ -57,10 +129,15 @@ export default class Logo {
   private totalIndex: number
   private color: string
 
+  private x: number
+  private y: number
+
   constructor({
     el,
     width,
     height,
+    x,
+    y,
     lineWidth = 5,
     radius = 50,
     color = '#000',
@@ -73,18 +150,21 @@ export default class Logo {
       this.canvas.height = height
     }
     this.context = this.canvas.getContext('2d') as CanvasRenderingContext2D
-    this.totalIndex = 3.4
+    this.totalIndex = 3.7
 
     this.color = color
     this.lineWidth = lineWidth
     this.radius = radius
+
+    this.x = typeof x !== 'undefined' ? x : this.width / 2 - this.radius / 2
+    this.y = typeof y !== 'undefined' ? y : this.height / 2
   }
 
   /**
-   * @description render a static logo
-   * @param idx
+   * @description render static logo
+   * @param index [number]
    */
-  public render(idx?: number) {
+  public render(index?: number) {
     this.context.clearRect(0, 0, this.width, this.height)
     this.context.save()
 
@@ -93,112 +173,21 @@ export default class Logo {
     this.context.lineWidth = this.lineWidth
     this.context.lineCap = 'round'
 
-    this.part1(idx)
-    this.part2(idx)
-    this.part3(idx)
-    this.part4(idx)
+    Logo.PARTS.forEach((part) => part.render(this, index))
 
     this.context.restore()
   }
 
   /**
-   * @description render a motive logo
+   * @description render motive logo
    */
-  public motion({ duration, count, reverse }: MotiveOptions = {}) {
+  public move({ duration, count, reverse }: MotiveOptions = {}) {
     return move(this.render.bind(this), {
-      from: 0,
+      from: -0.1,
       to: this.totalIndex,
       duration,
       count,
       reverse,
     })
-  }
-
-  /**
-   * @description part 1 idx (0 ~ 0.6]
-   * @param idx [number]
-   */
-  private part1(idx: number = 0.65) {
-    const min = 0
-    const max = 0.6
-    if (idx < min) {
-      return
-    }
-    idx = Math.min(idx, max) - min
-    this.context.beginPath()
-    this.context.arc(
-      this.x,
-      this.y,
-      this.radius,
-      (1.75 - idx) * Math.PI,
-      1.75 * Math.PI,
-    )
-    this.context.stroke()
-  }
-
-  /**
-   * @description part 2 idx (0.6 ~ 1.5]
-   * @param idx [number]
-   */
-  private part2(idx: number = 1.5) {
-    const min = 0.6
-    const max = 1.5
-    if (idx < min) {
-      return
-    }
-    idx = Math.min(idx, max) - min
-    this.context.beginPath()
-    this.context.arc(
-      this.x,
-      this.y,
-      this.radius,
-      (0.9 - idx) * Math.PI,
-      0.9 * Math.PI,
-    )
-    this.context.stroke()
-  }
-
-  /**
-   * @description part 3 idx (1.5 ~ 3.1]
-   * @param idx [number]
-   */
-  private part3(idx: number = 3.1) {
-    const min = 1.5
-    const max = 3.1
-    if (idx < min) {
-      return
-    }
-    idx = Math.min(idx, max) - min
-    this.context.beginPath()
-    this.context.arc(
-      this.tailX,
-      this.tailY,
-      this.tailRadius,
-      1 * Math.PI,
-      (1 + idx) * Math.PI,
-    )
-    this.context.stroke()
-  }
-
-  /**
-   * @description part 4 idx (3.1 ~ 3.2]
-   * @param idx [number]
-   */
-  private part4(idx: number = 3.2) {
-    const min = 3.1
-    const max = 3.2
-    if (idx < min) {
-      return
-    }
-    idx = Math.min(idx, max) - min
-    this.context.beginPath()
-    this.context.arc(
-      this.eyeX,
-      this.eyeY,
-      this.eyeRadius,
-      0,
-      idx * 20 * Math.PI,
-    )
-    this.context.fill()
   }
 }
