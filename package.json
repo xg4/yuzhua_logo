@@ -35,7 +35,7 @@
   "author": "xg4 <xingor4@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@xg4/motion": "^0.0.4"
+    "@xg4/motion": "^0.0.6"
   },
   "devDependencies": {
     "@babel/core": "^7.3.4",

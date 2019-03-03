@@ -644,10 +644,10 @@
   resolved "https://registry.yarnpkg.com/@xg4/easings/-/easings-0.0.3.tgz#7984efcc086ed45dc6551d9aa3aeb68cba88b9b8"
   integrity sha512-VRmghDbhNdHLWYW7Hi9nlxCNdBbYSNCG98pu9Z00aRiaf5LjW24TW8S+rVN93IFiUqdHu88moOsVebSOy5A/tQ==
 
-"@xg4/motion@^0.0.4":
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/@xg4/motion/-/motion-0.0.4.tgz#6024477d1a37bc0f95b2cf7f41c44d7ad5f250f9"
-  integrity sha512-KK+YZ7S2I8w5z/a8N6w7TT4okvxE6hOuwnrlbatwB6/TT/qRGqGh6nrvwHLQS2zB0Y+Op0tBlxye/wRZqNrNnw==
+"@xg4/motion@^0.0.6":
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/@xg4/motion/-/motion-0.0.6.tgz#581d5d60b160d332fd4b6a521b400d58103f6428"
+  integrity sha512-eGjzc/sD3nl+f4FI8YwxvLGUD6niek+5ArFlT1uuwsFhHBlVubWhX5ClYimdvCWrmRrsnsJW0MEqwvp/3i80lA==
   dependencies:
     "@xg4/easings" "^0.0.3"
     raf "^3.4.1"

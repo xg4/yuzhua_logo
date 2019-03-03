@@ -1,4 +1,4 @@
-import { move } from '@xg4/motion'
+import { MotiveOptions, move } from '@xg4/motion'
 import { query } from './util'
 
 export interface Options {
@@ -8,6 +8,7 @@ export interface Options {
   size?: number
   lineWidth?: number
   radius?: number
+  color?: string
 }
 
 export default class Logo {
@@ -38,7 +39,7 @@ export default class Logo {
   }
 
   private get eyeRadius() {
-    return this.radius / 10
+    return this.radius / 8
   }
 
   private get eyeX() {
@@ -53,14 +54,17 @@ export default class Logo {
   private context: CanvasRenderingContext2D
 
   private radius: number
-  private count: number
+  private totalIndex: number
+  private color: string
 
-  constructor(
-    { el, width, height, lineWidth = 5, radius = 50 }: Options = {
-      lineWidth: 5,
-      radius: 50,
-    },
-  ) {
+  constructor({
+    el,
+    width,
+    height,
+    lineWidth = 5,
+    radius = 50,
+    color = '#000',
+  }: Options = {}) {
     this.canvas = query(el)
     if (width) {
       this.canvas.width = width
@@ -69,8 +73,9 @@ export default class Logo {
       this.canvas.height = height
     }
     this.context = this.canvas.getContext('2d') as CanvasRenderingContext2D
-    this.count = 3.4
+    this.totalIndex = 3.4
 
+    this.color = color
     this.lineWidth = lineWidth
     this.radius = radius
   }
@@ -83,6 +88,8 @@ export default class Logo {
     this.context.clearRect(0, 0, this.width, this.height)
     this.context.save()
 
+    this.context.strokeStyle = this.color
+    this.context.fillStyle = this.color
     this.context.lineWidth = this.lineWidth
     this.context.lineCap = 'round'
 
@@ -97,21 +104,23 @@ export default class Logo {
   /**
    * @description render a motive logo
    */
-  public motion({ duration = 300 } = { duration: 300 }) {
-    move(this.render.bind(this), {
+  public motion({ duration, count, reverse }: MotiveOptions = {}) {
+    return move(this.render.bind(this), {
       from: 0,
-      to: this.count,
+      to: this.totalIndex,
       duration,
+      count,
+      reverse,
     })
   }
 
   /**
-   * @description part 1 idx (0 ~ 0.7]
+   * @description part 1 idx (0 ~ 0.6]
    * @param idx [number]
    */
-  private part1(idx: number = 0.7) {
+  private part1(idx: number = 0.65) {
     const min = 0
-    const max = 0.7
+    const max = 0.6
     if (idx < min) {
       return
     }
@@ -121,19 +130,19 @@ export default class Logo {
       this.x,
       this.y,
       this.radius,
-      (1.8 - idx) * Math.PI,
-      1.8 * Math.PI,
+      (1.75 - idx) * Math.PI,
+      1.75 * Math.PI,
     )
     this.context.stroke()
   }
 
   /**
-   * @description part 2 idx (0.7 ~ 1.6]
+   * @description part 2 idx (0.6 ~ 1.5]
    * @param idx [number]
    */
-  private part2(idx: number = 1.6) {
-    const min = 0.7
-    const max = 1.6
+  private part2(idx: number = 1.5) {
+    const min = 0.6
+    const max = 1.5
     if (idx < min) {
       return
     }
@@ -150,12 +159,12 @@ export default class Logo {
   }
 
   /**
-   * @description part 3 idx (1.6 ~ 3.3]
+   * @description part 3 idx (1.5 ~ 3.1]
    * @param idx [number]
    */
-  private part3(idx: number = 3.3) {
-    const min = 1.6
-    const max = 3.3
+  private part3(idx: number = 3.1) {
+    const min = 1.5
+    const max = 3.1
     if (idx < min) {
       return
     }
@@ -172,12 +181,12 @@ export default class Logo {
   }
 
   /**
-   * @description part 4 idx (3.3 ~ 3.4]
+   * @description part 4 idx (3.1 ~ 3.2]
    * @param idx [number]
    */
-  private part4(idx: number = 3.4) {
-    const min = 3.3
-    const max = 3.4
+  private part4(idx: number = 3.2) {
+    const min = 3.1
+    const max = 3.2
     if (idx < min) {
       return
     }
