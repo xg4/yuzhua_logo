@@ -121,16 +121,18 @@ export default class Logo {
     return this.y
   }
 
-  private lineWidth: number
   private canvas: HTMLCanvasElement
   private context: CanvasRenderingContext2D
 
-  private radius: number
-  private totalIndex: number
-  private color: string
+  private startIndex: number
+  private endIndex: number
 
   private x: number
   private y: number
+  private radius: number
+
+  private color: string
+  private lineWidth: number
 
   constructor({
     el,
@@ -150,7 +152,8 @@ export default class Logo {
       this.canvas.height = height
     }
     this.context = this.canvas.getContext('2d') as CanvasRenderingContext2D
-    this.totalIndex = 3.7
+    this.startIndex = -0.1
+    this.endIndex = 3.7
 
     this.color = color
     this.lineWidth = lineWidth
@@ -183,8 +186,8 @@ export default class Logo {
    */
   public move({ duration, count, reverse }: MotiveOptions = {}) {
     return move(this.render.bind(this), {
-      from: -0.1,
-      to: this.totalIndex,
+      from: this.startIndex,
+      to: this.endIndex,
       duration,
       count,
       reverse,
