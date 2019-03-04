@@ -14,7 +14,7 @@ export interface Options {
 }
 
 export default class Logo {
-  private static PARTS = [
+  private static PATHS = [
     {
       range: [0, 0.65],
       render({ context, x, y, radius }: Logo, currentIndex: number = 0.65) {
@@ -176,7 +176,7 @@ export default class Logo {
     this.context.lineWidth = this.lineWidth
     this.context.lineCap = 'round'
 
-    Logo.PARTS.forEach((part) => part.render(this, index))
+    Logo.PATHS.forEach((path) => path.render(this, index))
 
     this.context.restore()
   }
@@ -184,13 +184,11 @@ export default class Logo {
   /**
    * @description render motive logo
    */
-  public move({ duration, count, reverse }: MotiveOptions = {}) {
+  public move(options: MotiveOptions = {}) {
     return move(this.render.bind(this), {
+      ...options,
       from: this.startIndex,
       to: this.endIndex,
-      duration,
-      count,
-      reverse,
     })
   }
 }
