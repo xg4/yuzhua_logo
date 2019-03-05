@@ -1,6 +1,6 @@
 {
   "name": "yuzhua-logo",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "yuzhua logo",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
@@ -35,7 +35,7 @@
   "author": "xg4 <xingor4@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@xg4/motion": "^0.0.8"
+    "@xg4/motion": "^0.0.9"
   },
   "devDependencies": {
     "@babel/core": "^7.3.4",
