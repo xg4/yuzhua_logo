@@ -7,7 +7,6 @@ export interface Options {
   height?: number
   size?: number
   lineWidth?: number
-  radius?: number
   color?: string
   x?: number
   y?: number
@@ -121,18 +120,18 @@ export default class Logo {
     return this.y
   }
 
-  private canvas: HTMLCanvasElement
-  private context: CanvasRenderingContext2D
+  private readonly canvas: HTMLCanvasElement
+  private readonly context: CanvasRenderingContext2D
 
-  private startIndex: number
-  private endIndex: number
+  private readonly startIndex: number
+  private readonly endIndex: number
 
-  private x: number
-  private y: number
-  private radius: number
+  private readonly x: number
+  private readonly y: number
+  private readonly radius: number
 
-  private color: string
-  private lineWidth: number
+  private readonly color: string
+  private readonly lineWidth: number
 
   constructor({
     el,
@@ -141,7 +140,7 @@ export default class Logo {
     x,
     y,
     lineWidth = 5,
-    radius = 50,
+    size = 50,
     color = '#000',
   }: Options = {}) {
     this.canvas = query(el)
@@ -157,10 +156,10 @@ export default class Logo {
 
     this.color = color
     this.lineWidth = lineWidth
-    this.radius = radius
+    this.radius = size
 
-    this.x = typeof x !== 'undefined' ? x : this.width / 2 - this.radius / 2
-    this.y = typeof y !== 'undefined' ? y : this.height / 2
+    this.x = x === undefined ? this.width / 2 - this.radius / 2 : x
+    this.y = y === undefined ? this.height / 2 : y
   }
 
   /**
