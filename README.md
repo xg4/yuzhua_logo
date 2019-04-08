@@ -1,5 +1,6 @@
 # yuzhua logo
 
+[![Build Status](https://www.travis-ci.org/xg4/yuzhua_logo.svg?branch=master)](https://www.travis-ci.org/xg4/yuzhua_logo)
 [![npm](https://img.shields.io/npm/v/yuzhua-logo.svg)](https://www.npmjs.com/package/yuzhua-logo)
 [![npm](https://img.shields.io/npm/l/yuzhua-logo.svg)](https://www.npmjs.com/package/yuzhua-logo)
 
