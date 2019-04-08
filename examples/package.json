@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "parcel src/index.html",
-    "build": "parcel build src/index.html --public-url ./ --no-source-maps",
+    "dev": "parcel src/index.html --no-cache",
+    "build": "rimraf dist && parcel build src/index.html --public-url ./ --no-source-maps --no-cache",
     "deploy": "npm run build && gh-pages -d dist"
   },
   "keywords": [],
@@ -14,6 +14,7 @@
   "devDependencies": {
     "@babel/core": "^7.3.4",
     "gh-pages": "^2.0.1",
-    "parcel-bundler": "^1.11.0"
+    "parcel-bundler": "^1.11.0",
+    "rimraf": "^2.6.3"
   }
 }
