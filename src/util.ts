@@ -1,3 +1,9 @@
+function createCanvas() {
+  const canvas = document.createElement('canvas')
+  document.body.appendChild(canvas)
+  return canvas
+}
+
 export function query(el?: string | HTMLCanvasElement): HTMLCanvasElement {
   if (!el) {
     return createCanvas()
@@ -11,10 +17,4 @@ export function query(el?: string | HTMLCanvasElement): HTMLCanvasElement {
   } else {
     return el
   }
-}
-
-function createCanvas() {
-  const canvas = document.createElement('canvas')
-  document.body.appendChild(canvas)
-  return canvas
 }

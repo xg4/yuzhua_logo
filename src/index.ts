@@ -29,10 +29,10 @@ export default class Logo {
           y,
           radius,
           (1.75 - currentIndex) * Math.PI,
-          1.75 * Math.PI,
+          1.75 * Math.PI
         )
         context.stroke()
-      },
+      }
     },
     {
       range: [0.6, 1.5],
@@ -46,13 +46,13 @@ export default class Logo {
         context.beginPath()
         context.arc(x, y, radius, (0.9 - currentIndex) * Math.PI, 0.9 * Math.PI)
         context.stroke()
-      },
+      }
     },
     {
       range: [1.5, 3.1],
       render(
         { context, tailX, tailY, tailRadius }: Logo,
-        currentIndex: number = 3.1,
+        currentIndex: number = 3.1
       ) {
         const [min, max] = this.range
         if (currentIndex < min) {
@@ -66,16 +66,16 @@ export default class Logo {
           tailY,
           tailRadius,
           1 * Math.PI,
-          (1 + currentIndex) * Math.PI,
+          (1 + currentIndex) * Math.PI
         )
         context.stroke()
-      },
+      }
     },
     {
       range: [3.1, 3.5],
       render(
         { context, eyeX, eyeY, eyeRadius }: Logo,
-        currentIndex: number = 3.5,
+        currentIndex: number = 3.5
       ) {
         const [min, max] = this.range
         if (currentIndex < min) {
@@ -86,8 +86,8 @@ export default class Logo {
         context.beginPath()
         context.arc(eyeX, eyeY, eyeRadius, 0, currentIndex * 5 * Math.PI)
         context.fill()
-      },
-    },
+      }
+    }
   ]
 
   private get width() {
@@ -133,7 +133,7 @@ export default class Logo {
   private readonly color: string
   private readonly lineWidth: number
 
-  constructor({
+  public constructor({
     el,
     width,
     height,
@@ -141,7 +141,7 @@ export default class Logo {
     y,
     lineWidth = 5,
     size = 50,
-    color = '#000',
+    color = '#000'
   }: Options = {}) {
     this.canvas = query(el)
     if (width) {
@@ -175,7 +175,7 @@ export default class Logo {
     this.context.lineWidth = this.lineWidth
     this.context.lineCap = 'round'
 
-    Logo.PATHS.forEach((path) => path.render(this, index))
+    Logo.PATHS.forEach(path => path.render(this, index))
 
     this.context.restore()
   }
@@ -187,7 +187,7 @@ export default class Logo {
     return move(this.render.bind(this), {
       ...options,
       from: this.startIndex,
-      to: this.endIndex,
+      to: this.endIndex
     })
   }
 }
